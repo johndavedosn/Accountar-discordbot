@@ -61,7 +61,7 @@ class Pokemon(commands.Cog):
                 break
             else:
                 await message.add_reaction('❌')
-                message = await self.bot.wait_for('message',check=check)
+                message = await self.bot.wait_for('message',check=lambda msg: msg.channel)
                 msg_content = message.content.lower().strip(' ')
                 continue
     @pokeguess.error
