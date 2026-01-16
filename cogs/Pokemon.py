@@ -44,11 +44,10 @@ class Pokemon(commands.Cog):
         embed.set_footer(text="Guess the Pokemon to earn some prize money!")
         await interaction.followup.send(embed=embed)
 
-        def check(msg):
-            return msg.channel == interaction.channel
+
 
         
-        message = await self.bot.wait_for('message',check=check,timeout = 30)
+        message = await self.bot.wait_for('message',check=lambda msg: msg.channel == interaction.channel,timeout = 30)
         msg_content = message.content.lower().strip(' ')
         view = Continue(bot = self.bot,k=Worker("Warehouse.db"),a=Assister("Warehouse.db"))
 
@@ -62,7 +61,7 @@ class Pokemon(commands.Cog):
                 break
             else:
                 await message.add_reaction('❌')
-                message = await self.bot.wait_for('message',check=check)
+                message = await self.bot.wait_for('message',check=lambda msg: msg.channel)
                 msg_content = message.content.lower().strip(' ')
                 continue
     @pokeguess.error
